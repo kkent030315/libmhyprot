@@ -5,6 +5,11 @@ A static library, wrapper for mhyprot vulnerable driver, execute exploits and te
 
 ### The exploit PoC explained here: [evil-mhyprot-cli](https://github.com/kkent030315/evil-mhyprot-cli)
 
+# Requirements
+
+- Only supports x64
+- Might be work on any Windows version that the driver works on (not yet tested)
+
 # Usage
 
 ### 1. Include header
