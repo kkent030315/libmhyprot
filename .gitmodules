@@ -1,0 +1,3 @@
+[submodule "evil-mhyprot-cli"]
+	path = evil-mhyprot-cli
+	url = https://github.com/kkent030315/evil-mhyprot-cli.git
