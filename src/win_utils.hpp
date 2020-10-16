@@ -7,7 +7,7 @@
 #include "nt.hpp"
 
 #define CHECK_HANDLE(x) (x && x != INVALID_HANDLE_VALUE)
-#define MIN_ADDRESS ((ULONG_PTR)0x8000000000000000)
+#define MAX_ADDRESS ((ULONG_PTR)0x8000000000000000)
 
 namespace win_utils
 {
