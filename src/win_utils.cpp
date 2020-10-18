@@ -118,7 +118,7 @@ uint64_t win_utils::obtain_sysmodule_address(
 		SYSTEM_MODULE_INFORMATION_ENTRY module_entry = module_information->Module[i];
 		ULONG_PTR module_address = (ULONG_PTR)module_entry.DllBase;
 
-		if (module_address < MIN_ADDRESS)
+		if (module_address < MAX_ADDRESS)
 		{
 			continue;
 		}
