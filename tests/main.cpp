@@ -3,8 +3,8 @@
 #include <Windows.h>
 #include <TlHelp32.h>
 
-#include "../libmhyprot/nt.hpp"
-#include "../libmhyprot/libmhyprot.h"
+#include "../src/nt.hpp"
+#include "../src/libmhyprot.h"
 
 #define UDBG(format, ...) printf(format, __VA_ARGS__)
 #define CHECK_HANDLE(x) (x && x != INVALID_HANDLE_VALUE)
