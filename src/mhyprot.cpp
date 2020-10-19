@@ -302,3 +302,70 @@ bool mhyprot::driver_impl::write_user_memory(
         sizeof(payload)
     );
 }
+
+bool mhyprot::driver_impl::get_process_modules(
+    const uint32_t process_id, const uint32_t max_count,
+    std::vector<std::pair<std::wstring, std::wstring>>& result
+)
+{
+    //
+    // return is 0x3A0 alignment
+    //
+    const size_t payload_context_size = static_cast<uint64_t>(max_count) * MHYPROT_ENUM_PROCESS_MODULE_SIZE;
+
+    //
+    // payload buffer must have additional size to get result(s)
+    //
+    const size_t alloc_size = sizeof(MHYPROT_ENUM_PROCESS_MODULES_REQUEST) + payload_context_size;
+
+    //
+    // allocate memory
+    //
+    PMHYPROT_ENUM_PROCESS_MODULES_REQUEST payload =
+        (PMHYPROT_ENUM_PROCESS_MODULES_REQUEST)calloc(1, alloc_size);
+
+    if (!payload)
+    {
+        return false;
+    }
+
+    payload->process_id = process_id;   // target process id
+    payload->max_count = max_count;     // max module count to lookup
+
+    if (!request_ioctl(MHYPROT_IOCTL_ENUM_PROCESS_MODULES, payload, alloc_size))
+    {
+        free(payload);
+        return false;
+    }
+
+    //
+    // if the request was not succeed in the driver, first 4byte of payload will be zero'ed
+    //
+    if (!payload->process_id)
+    {
+        free(payload);
+        return false;
+    }
+
+    //
+    // result(s) are @ + 0x2
+    //
+    const void* payload_context = reinterpret_cast<void*>(payload + 0x2);
+
+    for (uint64_t offset = 0x0;
+        offset < payload_context_size;
+        offset += MHYPROT_ENUM_PROCESS_MODULE_SIZE)
+    {
+        const std::wstring module_name = reinterpret_cast<wchar_t*>((uint64_t)payload_context + offset);
+        const std::wstring module_path = reinterpret_cast<wchar_t*>((uint64_t)payload_context + (offset + 0x100));
+
+        if (module_name.empty() && module_path.empty())
+            continue;
+
+        result.push_back({ module_name, module_path });
+    }
+
+    free(payload);
+
+    return true;
+}

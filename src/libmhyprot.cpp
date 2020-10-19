@@ -28,9 +28,7 @@ namespace libmhyprot
 	}
 
 	MHYPROT_API_IMPL bool read_kernel_memory(
-		uint64_t address,
-		void* buffer,
-		size_t size
+		const uint64_t address, void* buffer, const size_t size
 	)
 	{
 		return mhyprot::driver_impl::read_kernel_memory(
@@ -40,9 +38,7 @@ namespace libmhyprot
 
 	MHYPROT_API_IMPL bool read_user_memory_raw(
 		const uint32_t process_id,
-		uint64_t address,
-		void* buffer,
-		size_t size
+		const uint64_t address, void* buffer, const size_t size
 	)
 	{
 		return mhyprot::driver_impl::read_user_memory(
@@ -52,13 +48,21 @@ namespace libmhyprot
 
 	MHYPROT_API_IMPL bool write_user_memory_raw(
 		const uint32_t process_id,
-		uint64_t address,
-		void* buffer,
-		size_t size
+		const uint64_t address, void* buffer, const size_t size
 	)
 	{
 		return mhyprot::driver_impl::write_user_memory(
 			process_id, address, buffer, size
+		);
+	}
+
+	MHYPROT_API_IMPL bool get_process_modules(
+		const uint32_t process_id, const uint32_t max_count,
+		std::vector< std::pair<std::wstring, std::wstring> >& result
+	)
+	{
+		return mhyprot::driver_impl::get_process_modules(
+			process_id, max_count, result
 		);
 	}
 }
