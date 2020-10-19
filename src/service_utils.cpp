@@ -31,7 +31,9 @@ SC_HANDLE service_utils::create_service(const std::string_view driver_path)
     {
         const auto last_error = GetLastError();
 
-        if (last_error == ERROR_SERVICE_EXISTS)
+        if (last_error == ERROR_SERVICE_EXISTS ||
+            last_error == ERROR_SERVICE_MARKED_FOR_DELETE ||
+            last_error == ERROR_SERVICE_ALREADY_RUNNING)
         {
             mhyprot_service_handle = OpenService(
                 sc_manager_handle,
@@ -42,19 +44,46 @@ SC_HANDLE service_utils::create_service(const std::string_view driver_path)
             if (!CHECK_HANDLE(mhyprot_service_handle))
             {
                 CloseServiceHandle(sc_manager_handle);
-                return false;
+                return (SC_HANDLE)(INVALID_HANDLE_VALUE);
+            }
+
+            SERVICE_STATUS status;
+
+            if (!QueryServiceStatus(mhyprot_service_handle, &status))
+            {
+                CloseServiceHandle(sc_manager_handle);
+                CloseServiceHandle(mhyprot_service_handle);
+                return (SC_HANDLE)(INVALID_HANDLE_VALUE);
+            }
+
+            if (status.dwCurrentState == SERVICE_STOPPED)
+            {
+                if (!start_service(mhyprot_service_handle))
+                {
+                    CloseServiceHandle(sc_manager_handle);
+                    CloseServiceHandle(mhyprot_service_handle);
+                    return (SC_HANDLE)(INVALID_HANDLE_VALUE);
+                }
+            }
+            else if (status.dwCurrentState != SERVICE_RUNNING)
+            {
+                CloseServiceHandle(sc_manager_handle);
+                CloseServiceHandle(mhyprot_service_handle);
+                return (SC_HANDLE)(INVALID_HANDLE_VALUE);
             }
 
             CloseServiceHandle(sc_manager_handle);
             return mhyprot_service_handle;
         }
 
+        //
+        // failed to obtain handle
+        //
         CloseServiceHandle(sc_manager_handle);
         return (SC_HANDLE)(INVALID_HANDLE_VALUE);
     }
 
     CloseServiceHandle(sc_manager_handle);
-
     return mhyprot_service_handle;
 }
 
@@ -62,7 +91,9 @@ SC_HANDLE service_utils::create_service(const std::string_view driver_path)
 // delete the service
 // sc delete myservice
 //
-bool service_utils::delete_service(SC_HANDLE service_handle, bool close_on_fail, bool close_on_success)
+bool service_utils::delete_service(
+    SC_HANDLE service_handle, bool close_on_fail, bool close_on_success
+)
 {
     SC_HANDLE sc_manager_handle = open_sc_manager();
 
