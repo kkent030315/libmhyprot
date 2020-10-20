@@ -31,8 +31,8 @@ You can use templates to call functions as follows:
 ```cpp
 using namespace libmhyprot;
 read_kernel_memory(addr, buf, size); /*or*/ read_kernel_memory<T>(addr);
-read_user_memory(pid, addr, buf, size); /*or*/ read_user_memory<T>(pid, addr);
-write_user_memory(pid, addr, buf, size); /*or*/ write_user_memory<T>(pid, addr, val);
+read_process_memory(pid, addr, buf, size); /*or*/ read_process_memory<T>(pid, addr);
+write_process_memory(pid, addr, buf, size); /*or*/ write_process_memory<T>(pid, addr, val);
 ```
 
 ### 4. Unload
