@@ -100,7 +100,7 @@ namespace libmhyprot
 	)
 	{
 		T buffer;
-		read_process_memory_raw(process_id, address, &buffer, sizeof(T));
+		read_process_memory(process_id, address, &buffer, sizeof(T));
 		return buffer;
 	}
 
@@ -121,7 +121,7 @@ namespace libmhyprot
 		const uint32_t& process_id, const uint64_t& address, const T& value
 	)
 	{
-		return write_process_memory_raw(process_id, address, &value, sizeof(T));
+		return write_process_memory(process_id, address, &value, sizeof(T));
 	}
 
 	//
