@@ -5,10 +5,25 @@ A static library, wrapper for mhyprot vulnerable driver, execute exploits and te
 
 ### The exploit PoC explained here: [evil-mhyprot-cli](https://github.com/kkent030315/evil-mhyprot-cli)
 
+# Features
+
+- Read Kernel Memory
+- Read Process Memory
+- Write Process Memory
+- Get Process Modules
+
+All of operations above will be executed using vulnerable driver, with ring-0 privilege.  
+Basically we need to be access-granted by the system using process handle, but we do not even need it.
+
 # Requirements
 
 - Only supports x64
-- Might be work on any Windows version that the driver works on (not yet tested)
+- Might be work on any Windows version that the driver works on
+
+Tested on:
+- Windows10 x64 1903
+- Windows7 x64 6.1
+- Windows8.1 x64 6.3
 
 # Usage
 
@@ -31,8 +46,8 @@ You can use templates to call functions as follows:
 ```cpp
 using namespace libmhyprot;
 read_kernel_memory(addr, buf, size); /*or*/ read_kernel_memory<T>(addr);
-read_user_memory(pid, addr, buf, size); /*or*/ read_user_memory<T>(pid, addr);
-write_user_memory(pid, addr, buf, size); /*or*/ write_user_memory<T>(pid, addr, val);
+read_process_memory(pid, addr, buf, size); /*or*/ read_process_memory<T>(pid, addr);
+write_process_memory(pid, addr, buf, size); /*or*/ write_process_memory<T>(pid, addr, val);
 ```
 
 ### 4. Unload
