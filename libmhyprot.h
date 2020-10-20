@@ -69,13 +69,13 @@ namespace libmhyprot
 	// privilege level: kernel (ring-0)
 	//
 	extern bool read_kernel_memory(
-		const uint64_t address, void* buffer, const size_t size
+		const uint64_t& address, void* buffer, const size_t& size
 	);
 
 	//
 	// template definition of reading kernel memory above
 	//
-	template<class T> T read_kernel_memory(const uint64_t address)
+	template<class T> T read_kernel_memory(const uint64_t& address)
 	{
 		T buffer;
 		read_kernel_memory(address, &buffer, sizeof(T));
@@ -87,20 +87,20 @@ namespace libmhyprot
 	// without process handle which granted permission by system
 	// privilege level: kernel (ring-0)
 	//
-	extern bool read_user_memory_raw(
-		const uint32_t process_id,
-		const uint64_t address, void* buffer, const size_t size
+	extern bool read_process_memory_raw(
+		const uint32_t& process_id,
+		const uint64_t& address, void* buffer, const size_t& size
 	);
 
 	//
 	// template definition of reading user memory above
 	//
-	template<class T> T read_user_memory(
-		const uint32_t process_id, const uint64_t address
+	template<class T> T read_process_memory(
+		const uint32_t& process_id, const uint64_t& address
 	)
 	{
 		T buffer;
-		read_user_memory_raw(process_id, address, &buffer, sizeof(T));
+		read_process_memory_raw(process_id, address, &buffer, sizeof(T));
 		return buffer;
 	}
 
@@ -109,26 +109,26 @@ namespace libmhyprot
 	// without process handle which granted permission by system
 	// privilege level: kernel (ring-0)
 	//
-	extern bool write_user_memory_raw(
-		const uint32_t process_id,
-		const uint64_t address, void* buffer, const size_t size
+	extern bool write_process_memory_raw(
+		const uint32_t& process_id,
+		const uint64_t& address, void* buffer, const size_t& size
 	);
 
 	//
 	// template definition of writing user memory above
 	//
 	template<class T> bool write_user_memory(
-		const uint32_t process_id, const uint64_t address, const T value
+		const uint32_t& process_id, const uint64_t& address, const T& value
 	)
 	{
-		return write_user_memory_raw(process_id, address, &value, sizeof(T));
+		return write_process_memory_raw(process_id, address, &value, sizeof(T));
 	}
 
 	//
 	// get a number of modules that loaded in the target process
 	//
 	extern bool get_process_modules(
-		const uint32_t process_id, const uint32_t max_count,
+		const uint32_t& process_id, const uint32_t max_count,
 		std::vector< std::pair<std::wstring, std::wstring> >& result
 	);
 }

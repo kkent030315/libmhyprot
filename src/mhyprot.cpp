@@ -116,7 +116,9 @@ void mhyprot::unload()
 //
 // send ioctl request to the vulnerable driver
 //
-bool mhyprot::driver_impl::request_ioctl(DWORD ioctl_code, LPVOID in_buffer, DWORD in_buffer_size)
+bool mhyprot::driver_impl::request_ioctl(
+    DWORD ioctl_code, LPVOID in_buffer, DWORD in_buffer_size
+)
 {
     //
     // allocate memory for this command result
@@ -176,7 +178,7 @@ bool mhyprot::driver_impl::driver_init()
     //
     // driver's base address in the system
     //
-    uint64_t mhyprot_address = win_utils::obtain_sysmodule_address(MHYPROT_SYSFILE_NAME);
+    uint64_t mhyprot_address = win_utils::find_sysmodule_address(MHYPROT_SYSFILE_NAME);
 
     if (!mhyprot_address)
     {
@@ -248,7 +250,9 @@ void mhyprot::driver_impl::encrypt_payload(void* payload, size_t size)
 //
 // read memory from the kernel using vulnerable ioctl
 //
-bool mhyprot::driver_impl::read_kernel_memory(uint64_t address, void* buffer, size_t size)
+bool mhyprot::driver_impl::read_kernel_memory(
+    const uint64_t& address, void* buffer, const size_t& size
+)
 {
     if (!buffer)
     {
@@ -284,8 +288,9 @@ bool mhyprot::driver_impl::read_kernel_memory(uint64_t address, void* buffer, si
 // read specific process memory from the kernel using vulnerable ioctl
 // let the driver to execute MmCopyVirtualMemory
 //
-bool mhyprot::driver_impl::read_user_memory(
-    uint32_t process_id, uint64_t address, void* buffer, size_t size
+bool mhyprot::driver_impl::read_process_memory(
+    const uint32_t& process_id,
+    const uint64_t& address, void* buffer, const size_t& size
 )
 {
     MHYPROT_USER_READ_WRITE_REQUEST payload;
@@ -308,8 +313,9 @@ bool mhyprot::driver_impl::read_user_memory(
 // write specific process memory from the kernel using vulnerable ioctl
 // let the driver to execute MmCopyVirtualMemory
 //
-bool mhyprot::driver_impl::write_user_memory(
-    uint32_t process_id, uint64_t address, void* buffer, size_t size
+bool mhyprot::driver_impl::write_process_memory(
+    const uint32_t& process_id,
+    const uint64_t& address, void* buffer, const size_t& size
 )
 {
     MHYPROT_USER_READ_WRITE_REQUEST payload;
@@ -329,7 +335,7 @@ bool mhyprot::driver_impl::write_user_memory(
 }
 
 bool mhyprot::driver_impl::get_process_modules(
-    const uint32_t process_id, const uint32_t max_count,
+    const uint32_t& process_id, const uint32_t max_count,
     std::vector<std::pair<std::wstring, std::wstring>>& result
 )
 {

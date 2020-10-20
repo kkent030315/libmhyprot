@@ -77,7 +77,7 @@ uint64_t win_utils::find_base_address(const uint32_t process_id)
 // lookup base address of specific module that loaded in the system
 // by NtQuerySystemInformation api
 //
-uint64_t win_utils::obtain_sysmodule_address(
+uint64_t win_utils::find_sysmodule_address(
 	const std::string_view target_module_name
 )
 {

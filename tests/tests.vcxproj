@@ -145,8 +145,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\libmhyprot\libmhyprot.h" />
     <ClInclude Include="..\libmhyprot\nt.hpp" />
+    <ClInclude Include="..\src\libmhyprot.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

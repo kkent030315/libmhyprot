@@ -174,7 +174,7 @@ int main()
     }
 
     const IMAGE_DOS_HEADER dos_header = libmhyprot::
-        read_user_memory<IMAGE_DOS_HEADER>(process_id, process_base_address);
+        read_process_memory<IMAGE_DOS_HEADER>(process_id, process_base_address);
 
     EXEC_TEST(
         dos_header.e_lfanew,
@@ -191,7 +191,7 @@ int main()
     );
 
     const IMAGE_NT_HEADERS nt_header = libmhyprot::
-        read_user_memory<IMAGE_NT_HEADERS>(process_id, process_base_address + dos_header.e_lfanew);
+        read_process_memory<IMAGE_NT_HEADERS>(process_id, process_base_address + dos_header.e_lfanew);
 
     EXEC_TEST(
         nt_header.Signature == IMAGE_NT_SIGNATURE,
@@ -223,6 +223,59 @@ int main()
         UDBG("[+] TEST     OK: kernel read is ok (readed: 0x%llX)\n", kernel_readed_address),
         -1
     );
+
+    UDBG("\n[>] performance tests...\n");
+
+    {
+        LARGE_INTEGER freq;
+        LARGE_INTEGER start, end;
+
+        if (!QueryPerformanceFrequency(&freq))
+        {
+            UDBG("[!] failed to get frequency\n");
+        }
+        else
+        {
+            if (!QueryPerformanceCounter(&start))
+                return -1;
+
+            {
+                for (auto i = 0; i < 1000000; i++)
+                {
+                    libmhyprot::read_process_memory<uint64_t>(process_id, process_base_address);
+                }
+            }
+
+            if (!QueryPerformanceCounter(&end))
+                return -1;
+
+            const double duration = (static_cast<double>(end.QuadPart - start.QuadPart) / freq.QuadPart);
+
+            UDBG("[+] ---> duration: %lf\n", duration);
+        }
+    }
+
+    UDBG("\n[>] snatching 5 modules from target process using vulnerable driver...\n");
+    
+    {
+        std::vector < std::pair < std::wstring, std::wstring >> module_list;
+
+        if (!libmhyprot::get_process_modules(process_id, 5, module_list))
+        {
+            UDBG("[<] failed to get process modules\n");
+        }
+        else
+        {
+            for (const auto& _module : module_list)
+            {
+                UDBG("[+] ---> %20ws : %ws\n", _module.first.c_str(), _module.second.c_str());
+            }
+
+            UDBG("[<] snatched\n\n");
+        }
+    }
+
+    UDBG("[<] done\n");
 
     libmhyprot::mhyprot_unload();
 
