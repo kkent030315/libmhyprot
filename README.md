@@ -5,6 +5,16 @@ A static library, wrapper for mhyprot vulnerable driver, execute exploits and te
 
 ### The exploit PoC explained here: [evil-mhyprot-cli](https://github.com/kkent030315/evil-mhyprot-cli)
 
+# Features
+
+- Read Kernel Memory
+- Read Process Memory
+- Write Process Memory
+- Get Process Modules
+
+All of operations above will be executed using vulnerable driver, with ring-0 privilege.  
+Basically we need to be access-granted by the system using process handle, but we do not even need it.
+
 # Requirements
 
 - Only supports x64
