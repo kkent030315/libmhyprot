@@ -87,7 +87,7 @@ namespace libmhyprot
 	// without process handle which granted permission by system
 	// privilege level: kernel (ring-0)
 	//
-	extern bool read_process_memory_raw(
+	extern bool read_process_memory(
 		const uint32_t& process_id,
 		const uint64_t& address, void* buffer, const size_t& size
 	);
@@ -109,7 +109,7 @@ namespace libmhyprot
 	// without process handle which granted permission by system
 	// privilege level: kernel (ring-0)
 	//
-	extern bool write_process_memory_raw(
+	extern bool write_process_memory(
 		const uint32_t& process_id,
 		const uint64_t& address, void* buffer, const size_t& size
 	);

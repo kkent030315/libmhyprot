@@ -61,7 +61,7 @@ namespace libmhyprot
 		);
 	}
 
-	MHYPROT_API_IMPL bool read_process_memory_raw(
+	MHYPROT_API_IMPL bool read_process_memory(
 		const uint32_t& process_id,
 		const uint64_t& address, void* buffer, const size_t& size
 	)
@@ -71,7 +71,7 @@ namespace libmhyprot
 		);
 	}
 
-	MHYPROT_API_IMPL bool write_process_memory_raw(
+	MHYPROT_API_IMPL bool write_process_memory(
 		const uint32_t& process_id,
 		const uint64_t& address, void* buffer, const size_t& size
 	)
