@@ -18,7 +18,12 @@ Basically we need to be access-granted by the system using process handle, but w
 # Requirements
 
 - Only supports x64
-- Might be work on any Windows version that the driver works on (not yet tested)
+- Might be work on any Windows version that the driver works on
+
+Tested on:
+- Windows10 x64 1903
+- Windows7 x64 6.1
+- Windows8.1 x64 6.3
 
 # Usage
 
