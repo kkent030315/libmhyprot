@@ -117,8 +117,9 @@ namespace libmhyprot
 	//
 	// template definition of writing user memory above
 	//
-	template<class T> bool write_user_memory(
-		const uint32_t& process_id, const uint64_t& address, const T& value
+	template<class T> bool write_process_memory(
+		const uint32_t& process_id,
+		const uint64_t& address, const T& value
 	)
 	{
 		return write_process_memory(process_id, address, &value, sizeof(T));
