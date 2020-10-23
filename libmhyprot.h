@@ -122,7 +122,7 @@ namespace libmhyprot
 		const uint64_t& address, const T& value
 	)
 	{
-		return write_process_memory(process_id, address, &value, sizeof(T));
+		return write_process_memory(process_id, address, (void*)&value, sizeof(T));
 	}
 
 	//
