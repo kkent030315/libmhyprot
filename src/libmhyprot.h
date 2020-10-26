@@ -51,8 +51,16 @@
 // +---------------------------------------------------------------------------+
 //
 
+typedef struct _MHYPROT_THREAD_INFORMATION
+{
+	uint64_t kernel_address;
+	uint64_t start_address;
+	bool unknown;
+} MHYPROT_THREAD_INFORMATION, * PMHYPROT_THREAD_INFORMATION;
+
 namespace libmhyprot
 {
+
 	//
 	// initialization of this library
 	//
@@ -131,5 +139,10 @@ namespace libmhyprot
 	extern bool get_process_modules(
 		const uint32_t& process_id, const uint32_t max_count,
 		std::vector< std::pair<std::wstring, std::wstring> >& result
+	);
+
+	extern bool get_process_threads(
+		const uint32_t& process_id, const uint32_t& owner_process_id,
+		std::vector<MHYPROT_THREAD_INFORMATION>& result
 	);
 }

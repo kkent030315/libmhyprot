@@ -400,3 +400,66 @@ bool mhyprot::driver_impl::get_process_modules(
 
     return true;
 }
+
+bool mhyprot::driver_impl::get_process_threads(
+    const uint32_t& process_id, const uint32_t& owner_process_id,
+    std::vector<MHYPROT_THREAD_INFORMATION>& result
+)
+{
+    //
+    // allocation size must have enough size for result
+    // and the result is 0xA8 alignment
+    //
+    const size_t alloc_size = 50 * MHYPROT_ENUM_PROCESS_THREADS_SIZE;
+
+    //
+    // allocate memory for payload and its result
+    //
+    PMHYPROT_ENUM_PROCESS_THREADS_REQUEST payload =
+        (PMHYPROT_ENUM_PROCESS_THREADS_REQUEST)calloc(1, alloc_size);
+
+    if (!payload)
+    {
+        return false;
+    }
+
+    payload->validation_code = MHYPROT_ENUM_PROCESS_THREADS_CODE;
+    payload->process_id = process_id;
+    payload->owner_process_id = process_id;
+
+    if (!request_ioctl(MHYPROT_IOCTL_ENUM_PROCESS_THREADS, payload, alloc_size))
+    {
+        free(payload);
+        return false;
+    }
+
+    //
+    // if the request succeed in the driver context,
+    // a number of threads that stored in the buffer will be reported
+    // in first 4byte
+    //
+    if (!payload->validation_code ||
+        payload->validation_code <= 0 ||
+        payload->validation_code > 1000)
+    {
+        free(payload);
+        return false;
+    }
+
+    const void* payload_context = reinterpret_cast<void*>(payload + 1);
+
+    const uint32_t thread_count = payload->validation_code;
+
+    for (uint64_t offset = 0x0;
+        offset < (MHYPROT_ENUM_PROCESS_THREADS_SIZE * thread_count);
+        offset += MHYPROT_ENUM_PROCESS_THREADS_SIZE)
+    {
+        const auto thread_information =
+            reinterpret_cast<PMHYPROT_THREAD_INFORMATION>((uint64_t)payload_context + offset);
+
+        result.push_back(*thread_information);
+    }
+
+    free(payload);
+    return true;
+}

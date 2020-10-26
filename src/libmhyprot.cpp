@@ -90,4 +90,14 @@ namespace libmhyprot
 			process_id, max_count, result
 		);
 	}
+
+	MHYPROT_API_IMPL bool get_process_threads(
+		const uint32_t& process_id, const uint32_t& owner_process_id,
+		std::vector<MHYPROT_THREAD_INFORMATION>& result
+	)
+	{
+		return mhyprot::driver_impl::get_process_threads(
+		process_id, owner_process_id, result
+		);
+	}
 }
