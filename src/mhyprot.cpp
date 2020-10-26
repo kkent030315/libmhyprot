@@ -258,7 +258,7 @@ bool mhyprot::driver_impl::read_kernel_memory(
         return false;
     }
 
-    payload->header.address = address;
+    payload->address = address;
     payload->size = size;
 
     if (!request_ioctl(MHYPROT_IOCTL_READ_KERNEL_MEMORY, payload, payload_size))
@@ -266,7 +266,7 @@ bool mhyprot::driver_impl::read_kernel_memory(
         return false;
     }
 
-    if (!payload->header.result)
+    if (!*(uint32_t*)payload)
     {
         memcpy(buffer, (PUCHAR)payload + 4, size);
         return true;
