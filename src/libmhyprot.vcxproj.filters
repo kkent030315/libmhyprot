@@ -22,4 +22,7 @@
     <ClCompile Include="file_utils.cpp" />
     <ClCompile Include="win_utils.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <MASM Include="key.asm" />
+  </ItemGroup>
 </Project>

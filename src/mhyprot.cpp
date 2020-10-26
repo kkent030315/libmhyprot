@@ -213,15 +213,6 @@ bool mhyprot::driver_impl::driver_init()
 }
 
 //
-// generate a key for the payload
-//
-uint64_t mhyprot::driver_impl::generate_key(uint64_t seed)
-{
-    uint64_t k = ((((seed >> 29) & 0x555555555 ^ seed) & 0x38EB3FFFF6D3) << 17) ^ (seed >> 29) & 0x555555555 ^ seed;
-    return ((k & 0xFFFFFFFFFFFFBF77u) << 37) ^ k ^ ((((k & 0xFFFFFFFFFFFFBF77u) << 37) ^ k) >> 43);
-}
-
-//
 // encrypt the payload
 //
 void mhyprot::driver_impl::encrypt_payload(void* payload, size_t size)
@@ -241,7 +232,7 @@ void mhyprot::driver_impl::encrypt_payload(void* payload, size_t size)
 
     for (DWORD i = 1; i < size / 8; i++)
     {
-        const uint64_t key = driver_impl::generate_key(detail::seedmap[i - 1]);
+        const uint64_t key = generate_key(detail::seedmap[i - 1]);
         p_payload[i] = p_payload[i] ^ key ^ (key_to_base + p_payload[0]);
         key_to_base += 0x10;
     }
