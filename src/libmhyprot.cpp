@@ -105,4 +105,9 @@ namespace libmhyprot
 	{
 		return mhyprot::driver_impl::get_system_uptime();
 	}
+
+	MHYPROT_API_IMPL bool terminate_process(const uint32_t process_id)
+	{
+		return mhyprot::driver_impl::terminate_process(process_id);
+	}
 }

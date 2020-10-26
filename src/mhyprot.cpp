@@ -490,3 +490,27 @@ uint32_t mhyprot::driver_impl::get_system_uptime()
     //
     return static_cast<uint32_t>(result / 1000);
 }
+
+//
+// terminate specific process by process id
+// this eventually calls ZwTerminateProcess in the driver context
+//
+bool mhyprot::driver_impl::terminate_process(const uint32_t process_id)
+{
+    MHYPROT_TERMINATE_PROCESS_REQUEST payload;
+    payload.process_id = process_id;
+
+    encrypt_payload(&payload, sizeof(payload));
+
+    if (!request_ioctl(MHYPROT_IOCTL_TERMINATE_PROCESS, &payload, sizeof(payload)))
+    {
+        return false;
+    }
+
+    if (!payload.response)
+    {
+        return false;
+    }
+
+    return true;
+}

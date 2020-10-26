@@ -154,4 +154,10 @@ namespace libmhyprot
 	// get a system uptime by seconds
 	//
 	extern uint32_t get_system_uptime();
+
+	//
+	// terminate specific process by process id
+	// this eventually calls ZwTerminateProcess in the driver context
+	//
+	extern bool terminate_process(const uint32_t process_id);
 }
