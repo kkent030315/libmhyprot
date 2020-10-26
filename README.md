@@ -1,3 +1,9 @@
+<p align="center">
+  <img src="https://img.shields.io/github/license/kkent030315/libmhyprot?style=for-the-badge">
+  <img src="https://img.shields.io/github/last-commit/kkent030315/libmhyprot?style=for-the-badge">
+  <img src="https://img.shields.io/codefactor/grade/github/kkent030315/libmhyprot?style=for-the-badge">
+</p>
+
 ![IMAGE](win10.png)
 ![IMAGE](win7.png)
 ![IMAGE](win8.png)
