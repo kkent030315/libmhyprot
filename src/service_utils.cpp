@@ -63,7 +63,7 @@ SC_HANDLE service_utils::create_service(const std::string_view driver_path)
             mhyprot_service_handle = OpenService(
                 sc_manager_handle,
                 MHYPROT_SERVICE_NAME,
-                SERVICE_START | SERVICE_STOP | DELETE
+                SERVICE_START | SERVICE_STOP | DELETE | SERVICE_QUERY_STATUS
             );
 
             if (!CHECK_HANDLE(mhyprot_service_handle))
