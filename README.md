@@ -1,3 +1,4 @@
+<p align="center"><img src="icon.png"></p>
 <p align="center">
   <img src="https://img.shields.io/github/license/kkent030315/libmhyprot?style=for-the-badge">
   <img src="https://img.shields.io/github/last-commit/kkent030315/libmhyprot?style=for-the-badge">
