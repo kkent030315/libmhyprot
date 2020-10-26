@@ -200,6 +200,8 @@ int main()
         -1
     );
 
+    UDBG("[+] system uptime by vulnerable driver : %d(s)\n", libmhyprot::get_system_uptime());
+
     UDBG("[>] reading memory from kernel...\n");
 
     const auto sysmodule_name = "ntoskrnl.exe";

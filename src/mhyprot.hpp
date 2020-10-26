@@ -44,7 +44,7 @@
 #define MHYPROT_IOCTL_READ_KERNEL_MEMORY        0x83064000
 #define MHYPROT_IOCTL_READ_WRITE_USER_MEMORY	0x81074000
 #define MHYPROT_IOCTL_ENUM_PROCESS_MODULES      0x82054000
-
+#define MHYPROT_IOCTL_GET_SYSTEM_UPTIME         0x80134000
 #define MHYPROT_IOCTL_ENUM_PROCESS_THREADS      0x83024000
 
 
@@ -164,5 +164,7 @@ namespace mhyprot
 			const uint32_t& process_id, const uint32_t& owner_process_id,
 			std::vector<MHYPROT_THREAD_INFORMATION>& result
 		);
+
+		uint32_t get_system_uptime();
 	}
 }

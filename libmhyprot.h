@@ -141,8 +141,17 @@ namespace libmhyprot
 		std::vector< std::pair<std::wstring, std::wstring> >& result
 	);
 
+	//
+	// get all of threads that registered in the target process
+	// kernel_address is a pointer to the _ETHREAD object in kernel
+	//
 	extern bool get_process_threads(
 		const uint32_t& process_id, const uint32_t& owner_process_id,
 		std::vector<MHYPROT_THREAD_INFORMATION>& result
 	);
+
+	//
+	// get a system uptime by seconds
+	//
+	extern uint32_t get_system_uptime();
 }

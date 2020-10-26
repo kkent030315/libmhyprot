@@ -100,4 +100,9 @@ namespace libmhyprot
 		process_id, owner_process_id, result
 		);
 	}
+
+	MHYPROT_API_IMPL uint32_t get_system_uptime()
+	{
+		return mhyprot::driver_impl::get_system_uptime();
+	}
 }
