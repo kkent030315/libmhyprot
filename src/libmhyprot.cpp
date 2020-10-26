@@ -97,7 +97,7 @@ namespace libmhyprot
 	)
 	{
 		return mhyprot::driver_impl::get_process_threads(
-		process_id, owner_process_id, result
+			process_id, owner_process_id, result
 		);
 	}
 
