@@ -13,6 +13,7 @@ A static library, wrapper for mhyprot vulnerable driver, execute exploits and te
 - Read Process Memory
 - Write Process Memory
 - Get Process Modules
+- Get Process Threads (**New**)
 
 All of operations above will be executed using vulnerable driver, with ring-0 privilege.  
 Basically we need to be access-granted by the system using process handle, but we do not even need it.
